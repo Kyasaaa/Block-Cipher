@@ -14,7 +14,7 @@ if __name__ == '__main__':
     # 1.5. pad with "." if length is not a multiple of 16, because 128 bits contains of 16 letters
     num_padding = (16 - len(plain) % 16)
     if (num_padding > 0):
-        plain += "." * num_padding
+        plain += " " * num_padding
 
     # 2. Get the plaintext as a bits
     plain_bits = string_2_bit_string(plain)
@@ -43,6 +43,9 @@ if __name__ == '__main__':
         ciphertext += bit_string_2_string(result_block)
         
     # 6. Remove padding from the ciphertext result
+    # If the num of padding is odd, add space after
+    if num_padding%2 == 1:
+        num_padding -= 1
     ciphertext = ciphertext[:len(ciphertext)-num_padding]
     
     # 7. Write ciphertext to text file

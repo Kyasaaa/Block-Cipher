@@ -15,7 +15,7 @@ if __name__ == '__main__':
     # ?????????????????????????
     num_padding = (16 - len(cipher) % 16)
     if (num_padding > 0):
-        cipher += "." * num_padding
+        cipher += " " * num_padding
 
     # 2. Get the ciphertext as a bits
     cipher_bits = string_2_bit_string(cipher)
@@ -42,6 +42,8 @@ if __name__ == '__main__':
         plaintext += bit_string_2_string(result_block)
     
     # 6. Remove padding from the plaintext result
+    if plaintext[len(plaintext)-num_padding-1] == " ":
+        num_padding += 1
     plaintext = plaintext[:len(plaintext)-num_padding]
     
     # 7. Write plaintext to text file
