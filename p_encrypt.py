@@ -6,40 +6,46 @@ if __name__ == '__main__':
     # Clearing the Screen
     os.system('cls')
 
-    # 1. Get the plaintext as a bits
-    f = open("p.txt", "r", encoding="utf-8")
+    # 1. Read plaintext from text file
+    f = open("text file//p.txt", "r", encoding="utf-8")
     plain = f.read()
     f.close()
-    # pad with "." if length is not a multiple of 16
-    if (len(plain) % 16 != 0):
-        plain += "." * (16 - len(plain) % 16)
+    
+    # 1.5. pad with "." if length is not a multiple of 16, because 128 bits contains of 16 letters
+    num_padding = (16 - len(plain) % 16)
+    if (num_padding > 0):
+        plain += "." * num_padding
 
+    # 2. Get the plaintext as a bits
     plain_bits = string_2_bit_string(plain)
     
-    # 2. Get 16 subkeys from external key
-    key = "ABCDEFGHIJKLMNOP"
-    subkeys_list = subkey_generator(key)
+    # 3. Get 16 subkeys from external key
+    subkeys_list = subkey_generator(KEY)
 
-    # 3. For all block from plaintext, do XOR with subkey
-    # Make blocks of block that contains 128 bits
+    # 4. Make blocks of block that contains 128 bits
     blocks = []
     for i in range(0, len(plain_bits), 128):
         blocks.append(plain_bits[i:i+128])
     
-    print(blocks)
-    
-    # Do XOR with subkey
-    result = []
+    # 5. For each block from plaintext do Encoding by block cipher algorithm
+    ciphertext = ""
     for block in blocks:
-        result.append(xor_block_with_subkey(block, subkeys_list[0]))
+        result_block = block
+        ### It be done for 16 iterations (16 subkeys)
+        for i in range(16):
+            # a) Do XOR with subkey
+            xor_str = xor_block_with_subkey(result_block, subkeys_list[i])
+            # b) Do Substitution by S_BOX
+            subs_str = block_substitution_by_sBox(xor_str)
+            # c) Do Block Shifting (permutation alt)
+            shifted_str = block_shifting(subs_str, right=False)
+            result_block = shifted_str
+        ciphertext += bit_string_2_string(result_block)
         
-    print("after xor\n",result)
-    blok1 = block_substitution_by_sBox(result[0])
-    print("after s-box\n",blok1)
-    after_shift = block_shifting(blok1)
-    print("after shifting\n", after_shift)
-    resulttt = bit_string_2_string(after_shift)
-    print("to string again\n", resulttt)
-    f = open("c.txt", "w", encoding="utf-8")
-    f.write(resulttt)
+    # 6. Remove padding from the ciphertext result
+    ciphertext = ciphertext[:len(ciphertext)-num_padding]
+    
+    # 7. Write ciphertext to text file
+    f = open("text file//c.txt", "w", encoding="utf-8")
+    f.write(ciphertext)
     f.close()
