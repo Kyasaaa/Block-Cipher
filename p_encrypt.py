@@ -7,7 +7,7 @@ if __name__ == '__main__':
     os.system('cls')
 
     # 1. Get the plaintext as a bits
-    f = open("p.txt", "r")
+    f = open("p.txt", "r", encoding="utf-8")
     plain = f.read()
     f.close()
     # pad with "." if length is not a multiple of 16
@@ -26,6 +26,8 @@ if __name__ == '__main__':
     for i in range(0, len(plain_bits), 128):
         blocks.append(plain_bits[i:i+128])
     
+    print(blocks)
+    
     # Do XOR with subkey
     result = []
     for block in blocks:
@@ -38,6 +40,6 @@ if __name__ == '__main__':
     print("after shifting\n", after_shift)
     resulttt = bit_string_2_string(after_shift)
     print("to string again\n", resulttt)
-    f = open("c.txt", "w")
+    f = open("c.txt", "w", encoding="utf-8")
     f.write(resulttt)
     f.close()
