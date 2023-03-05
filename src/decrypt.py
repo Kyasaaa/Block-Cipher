@@ -25,7 +25,8 @@ def decrypt(ciphertext, external_key):
         for i in range(16):
             reverse_shift = block_shifting(result_block, right=True)
             reverse_subs = reverse_block_substitution(reverse_shift)
-            reXor_str = xor_block_with_subkey(reverse_subs, subkeys_list[15-i])
+            addited = substract_each_4bits_of_block_by_half(reverse_subs, addition=True)
+            reXor_str = xor_block_with_subkey(addited, subkeys_list[15-i])
             result_block = reXor_str
         plaintext += bit_string_2_string(result_block)
     

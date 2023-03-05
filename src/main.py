@@ -100,9 +100,9 @@ print()
 # 4. Save all the text
 match cript_op:
     case 1:
-        write_file(text, "01_origin_plaintext")
-        write_file(result, "01_result_ciphertext")
+        write_file(text, "01_origin plaintext")
+        write_file(result, "01_result ciphertext")
     case 2:
-        write_file(text, "02_origin_ciphertext")
-        write_file(result, "02_result_plaintext")
-write_file(key, "03_external_key")
+        write_file(text, "02_origin ciphertext")
+        write_file(result, "02_result plaintext")
+write_file(key, "03_external key")

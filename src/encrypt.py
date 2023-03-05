@@ -25,9 +25,11 @@ def encrypt(plaintext, external_key):
         for i in range(16):
             # a) Do XOR with subkey
             xor_str = xor_block_with_subkey(result_block, subkeys_list[i])
-            # b) Do Substitution by S_BOX
-            subs_str = block_substitution_by_sBox(xor_str)
-            # c) Do Block Shifting (permutation alt)
+            # b) Do Substraction for each 4bits by x
+            substracted = substract_each_4bits_of_block_by_half(xor_str, addition=False)
+            # c) Do Substitution by S_BOX
+            subs_str = block_substitution_by_sBox(substracted)
+            # d) Do Block Shifting (permutation alt)
             shifted_str = block_shifting(subs_str, right=False)
             result_block = shifted_str
         ciphertext += bit_string_2_string(result_block)

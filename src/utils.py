@@ -93,3 +93,16 @@ def block_shifting(block, right=False):
             shifted_block += temp
             temp = ""
     return shifted_block
+
+def substract_each_4bits_of_block_by_half(block, addition=False):
+    x = 8
+    result = ""
+    for i in range(0, len(block)//4):
+        four_bit = block[i*4:i*4+4]
+        four_bit_int = int(four_bit, 2)
+        if addition:
+            x *= -1
+        four_bit_int = (four_bit_int - x) % 16
+        four_bit = ''.join(format(four_bit_int, 'b').zfill(4))
+        result += four_bit
+    return result
