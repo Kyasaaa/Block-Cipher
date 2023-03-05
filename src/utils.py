@@ -16,12 +16,12 @@ def subkey_generator(external_key):
     subkeys = []
     x = 0
     for i in range(0, len(external_key)//subkey_len):
-        sum_temp = 0
+        partition_sum = 0
         for j in range(0, subkey_len):
-            sum_temp = (sum_temp + ord(external_key[i*subkey_len+j])) % 256
-        x = (x + sum_temp) % 256
+            partition_sum = (partition_sum + ord(external_key[i*subkey_len+j])) % 256
+        x = (x + partition_sum) % 256
         subkey = ''.join(format(x, 'b').zfill(8))
-        subkeys.append(subkey)
+        subkeys.append(subkey*16)
     return subkeys
 
 def LR_block_change(block):
@@ -29,11 +29,10 @@ def LR_block_change(block):
     result = block[leng:] + block[:leng]
     return result
 
-def xor_block_with_subkey(block, subkey):
-    subkey *= 16
+def xor_two_block(block1, block2):
     result = ""
-    for i in range(len(block)):
-        result += str(int(block[i]) ^ int(subkey[i]))
+    for i in range(len(block1)):
+        result += str(int(block1[i]) ^ int(block2[i]))
     return result
 
 def substract_each_4bits_of_block_by_x(block, x=8, addition=False):

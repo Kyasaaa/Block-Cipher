@@ -1,7 +1,7 @@
 from utils import *
 
 def encrypt(plaintext, external_key):
-    # 1.5. pad with "." if length is not a multiple of 16, because 128 bits contains of 16 letters
+    # 1. pad with "." if length is not a multiple of 16, because 128 bits contains of 16 letters
     num_padding = (16 - len(plaintext) % 16)
     if (num_padding > 0):
         plaintext += " " * num_padding
@@ -23,10 +23,10 @@ def encrypt(plaintext, external_key):
         result_block = block
         ### It be done for 16 iterations (16 subkeys)
         for i in range(16):
-            # a) Do feistel : exhange left and right 64bits
-            feistel = LR_block_change(result_block)
+            # a) Do LR Change : exhange left and right 64bits
+            changed = LR_block_change(result_block)
             # b) Do XOR with subkey
-            xor_str = xor_block_with_subkey(feistel, subkeys_list[i])
+            xor_str = xor_two_block(changed, subkeys_list[i])
             # c) Do Substraction for each 4bits by x
             substracted = substract_each_4bits_of_block_by_x(xor_str, x=i, addition=False)
             # d) Do Substitution by S_BOX

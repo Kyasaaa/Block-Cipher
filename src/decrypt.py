@@ -1,7 +1,7 @@
 from utils import *
 
 def decrypt(ciphertext, external_key):
-    # 1.5. pad with "." if length is not a multiple of 16
+    # 1. pad with "." if length is not a multiple of 16
     num_padding = (16 - len(ciphertext) % 16)
     if (num_padding > 0):
         ciphertext += " " * num_padding
@@ -27,10 +27,10 @@ def decrypt(ciphertext, external_key):
             reverse_shift = block_shifting(result_block, right=True)
             reverse_subs = reverse_block_substitution(reverse_shift)
             addited = substract_each_4bits_of_block_by_x(reverse_subs, x=(15-i), addition=True)
-            reXor_str = xor_block_with_subkey(addited, subkeys_list[15-i])
-            feistel = LR_block_change(reXor_str)
+            reXor_str = xor_two_block(addited, subkeys_list[15-i])
+            changed = LR_block_change(reXor_str)
             
-            result_block = feistel
+            result_block = changed
         plaintext += bit_string_2_string(result_block)
     
     # 6. Remove padding from the plaintext result
