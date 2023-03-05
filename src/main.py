@@ -1,4 +1,5 @@
 import os
+from time import time
 from constant import ENCODING
 from decrypt import decrypt
 from encrypt import encrypt
@@ -54,11 +55,11 @@ print("~~~~~~~~~~~~~   Welcome to SwazzyCipher...!!!   ~~~~~~~~~~~~~")
 print("-------------------------------------------------------------")
 print("-------------------------------------------------------------")
 print()
-print("What will you like to do?")
+print("What would you like to do?")
 print("1. Encrypt your plaintext.")
 print("2. Decrypt your ciphertext.")
 print()
-cript_op = int(input("Choose Kript: "))
+cript_op = int(input("Choose crypt: "))
 print()
 print("-------------------------------------------------------------")
 match cript_op:
@@ -67,17 +68,17 @@ match cript_op:
     case 2:
         print("~~~~~~~~~~~~~~~   You Choose Encryption Mode  ~~~~~~~~~~~~~~~")
     case default:
-        print("Please type correct number")
-        cript_op = int(input("Choose Kript: "))
+        print("Please type the correct number.")
+        cript_op = int(input("Choose crypt: "))
 print("-------------------------------------------------------------")
 print()
 
 # 2. Choose the input mode
-print("How will you like to input your text and key?")
+print("How would you like to input your text and key?")
 print("1. Input by user typing.")
 print("2. Input by filename.")
 print()
-input_op = int(input("Choose Input: "))
+input_op = int(input("Choose input: "))
 print()
 match input_op:
     case 1:
@@ -89,8 +90,8 @@ match input_op:
         text = read_file("text")
         key  = read_file(" key")
     case default:
-        print("Please type correct number")
-        input_op = int(input("Choose Input: "))
+        print("Please type the correct number.")
+        input_op = int(input("Choose input: "))
 
 # 3. Start Criptography
 print()
@@ -99,16 +100,20 @@ match cript_op:
     case 1:
         print("~~~~~~~~~~~~~~~~~~~~   Start Encryption   ~~~~~~~~~~~~~~~~~~~~")
         print("-------------------------------------------------------------")
-        print()
+        start = time()
         result = encrypt(text, key)
+        print("Execution time   : ", f"{time()-start} second")
+        print("-------------------------------------------------------------\n")
         print("Your plaintext is: ", f"'{text}'")
         print("Your       key is: ", f"'{key}'")
         print("Your encrypted is: ", f"'{result}'")
     case 2:
         print("~~~~~~~~~~~~~~~~~~~~   Start Decryption   ~~~~~~~~~~~~~~~~~~~~")
         print("-------------------------------------------------------------")
-        print()
+        start = time()
         result = decrypt(text, key)
+        print("Execution time   : ", f"{time()-start} second")
+        print("-------------------------------------------------------------\n")
         print("Your ciphertext is: ", f"'{text}'")
         print("Your        key is: ", f"'{key}'")
         print("Your  decrypted is: ", f"'{result}'")
