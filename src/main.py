@@ -1,5 +1,5 @@
 import os
-from time import time
+import time
 from constant import ENCODING
 from decrypt import decrypt
 from encrypt import encrypt
@@ -100,9 +100,9 @@ match cript_op:
     case 1:
         print("~~~~~~~~~~~~~~~~~~~~   Start Encryption   ~~~~~~~~~~~~~~~~~~~~")
         print("-------------------------------------------------------------")
-        start = time()
+        start = time.perf_counter()
         result = encrypt(text, key)
-        print("Execution time   : ", f"{time()-start} seconds")
+        print("Execution time   : ", f"{time.perf_counter()-start} seconds")
         print("-------------------------------------------------------------\n")
         print("Your plaintext is: ", f"'{text}'")
         print("Your       key is: ", f"'{key}'")
@@ -110,9 +110,9 @@ match cript_op:
     case 2:
         print("~~~~~~~~~~~~~~~~~~~~   Start Decryption   ~~~~~~~~~~~~~~~~~~~~")
         print("-------------------------------------------------------------")
-        start = time()
+        start = time.perf_counter()
         result = decrypt(text, key)
-        print("Execution time   : ", f"{time()-start} seconds")
+        print("Execution time   : ", f"{time.perf_counter()-start} seconds")
         print("-------------------------------------------------------------\n")
         print("Your ciphertext is: ", f"'{text}'")
         print("Your        key is: ", f"'{key}'")

@@ -1,3 +1,4 @@
+import hashlib
 from constant import *
 
 def string_2_bit_string(str, n_bits=8):
@@ -6,19 +7,22 @@ def string_2_bit_string(str, n_bits=8):
 def bit_string_2_string(bit_str, n_bits=8):
     return ''.join(chr(int(bit_str[i:i+n_bits], 2)) for i in range(0, len(bit_str), n_bits))
 
+def hash_string(str):
+    hash_object = hashlib.sha256()
+    hash_object.update(str.encode())
+    hex_dig = hash_object.hexdigest()
+    return hex_dig
+
 def subkey_generator(external_key):
-    # pad with "." if length is not a multiple of 16
-    if (len(external_key) % 16 != 0):
-        num_padding = (16 - len(external_key) % 16)
-        external_key += ("." * num_padding)
-        
-    subkey_len = len(external_key) // 16
+    # Hash the external key for security, the result has 64 characters
+    hashed_key = hash_string(external_key)
+    subkey_len = len(hashed_key) // 16  # 64/16 = 4
     subkeys = []
     x = 0
-    for i in range(0, len(external_key)//subkey_len):
+    for i in range(0, len(hashed_key)//subkey_len):
         partition_sum = 0
         for j in range(0, subkey_len):
-            partition_sum = (partition_sum + ord(external_key[i*subkey_len+j])) % 256
+            partition_sum = (partition_sum + ord(hashed_key[i*subkey_len+j])) % 256
         x = (x + partition_sum) % 256
         subkey = ''.join(format(x, 'b').zfill(8))
         subkeys.append(subkey*16)
