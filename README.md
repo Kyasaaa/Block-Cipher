@@ -11,8 +11,10 @@
 3. Jalankan perintah 'python src/main.py'
 4. Pilih opsi proses cipher yang ingin dilakukan 
 5. Pilih metode pembacaan masukan yang diinginkan
-6. Masukan input yang sesuai
-7. Hasil proses cipher akan ditampilkan di halaman terminal dan disimpan pada folder 'Test_Files/After_Crypt.
+ - Apabila metode pembacaan menggunakan filename, masukan text file ke dalam folder 'Test_Files/Test'. Masukkan cukup menggunakan nama file tanpa jenis ekstensionnya.
+ - Apabila metode pembacaan dari ketikan user, masukan cukup diketik pada Command Line
+6. Hasil proses cipher akan ditampilkan di halaman terminal dan disimpan pada folder 'Test_Files/After_Crypt'.
 
-## Note:
-## 1. Apabila ingin menyalin pesan terenkripsi dari keluaran program, lakukan penyalinan dari teks keluaran '01_result cipher text'
+## Notes:
+- Beri penamaan filename dengan standar {{nomor}}c.txt untuk ciphertext, {{nomor}}p.txt untuk plaintext, dan {{nomor}}k.txt untuk key. Hal ini dilakukan agar memudahkan inputan pada Command Line
+- Jika ingin melakukan dekripsi dari hasil encrypsi, jangan lakukan copy paste langsung dari Command Line. Hal ini dapat dilakukan dengan menyalin hasil enkripsi dari file '02_result ciphertext.txt' dan menuliskannya ke file '{{nomor}}c.txt' serta string kunci dari file '03_external key.txt' ke file '{{nomor}}c.txt'. Hal ini berlaku sebaliknya untuk hasil dekripsi plaintext.
