@@ -23,11 +23,14 @@ def decrypt(ciphertext, external_key):
         result_block = block
         ### It be done for 16 iterations (16 subkeys)
         for i in range(16):
+            # Algorithm is the same as in encrypt.py, but in reverse order
             reverse_shift = block_shifting(result_block, right=True)
             reverse_subs = reverse_block_substitution(reverse_shift)
             addited = substract_each_4bits_of_block_by_half(reverse_subs, addition=True)
             reXor_str = xor_block_with_subkey(addited, subkeys_list[15-i])
-            result_block = reXor_str
+            feistel = block_feistel(reXor_str)
+            
+            result_block = feistel
         plaintext += bit_string_2_string(result_block)
     
     # 6. Remove padding from the plaintext result
