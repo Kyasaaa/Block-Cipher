@@ -1,26 +1,16 @@
 from utils import *
 
-
-if __name__ == '__main__':
-    import os
-    # Clearing the Screen
-    os.system('cls')
-
-    # 1. Read plaintext from text file
-    f = open("text file//p.txt", "r", encoding="utf-8")
-    plain = f.read()
-    f.close()
-    
+def encrypt(plaintext, external_key):
     # 1.5. pad with "." if length is not a multiple of 16, because 128 bits contains of 16 letters
-    num_padding = (16 - len(plain) % 16)
+    num_padding = (16 - len(plaintext) % 16)
     if (num_padding > 0):
-        plain += " " * num_padding
+        plaintext += " " * num_padding
 
     # 2. Get the plaintext as a bits
-    plain_bits = string_2_bit_string(plain)
+    plain_bits = string_2_bit_string(plaintext)
     
     # 3. Get 16 subkeys from external key
-    subkeys_list = subkey_generator(KEY)
+    subkeys_list = subkey_generator(external_key)
 
     # 4. Make blocks of block that contains 128 bits
     blocks = []
@@ -48,7 +38,4 @@ if __name__ == '__main__':
         num_padding -= 1
     ciphertext = ciphertext[:len(ciphertext)-num_padding]
     
-    # 7. Write ciphertext to text file
-    f = open("text file//c.txt", "w", encoding="utf-8")
-    f.write(ciphertext)
-    f.close()
+    return ciphertext

@@ -1,7 +1,4 @@
-from s_box import *
-
-def get_sBox():
-    return S_BOX
+from constant import *
 
 def string_2_bit_string(str, n_bits=8):
     return ''.join(format(ord(c), 'b').zfill(n_bits) for c in str)
@@ -9,19 +6,20 @@ def string_2_bit_string(str, n_bits=8):
 def bit_string_2_string(bit_str, n_bits=8):
     return ''.join(chr(int(bit_str[i:i+n_bits], 2)) for i in range(0, len(bit_str), n_bits))
 
-def subkey_generator(key):
+def subkey_generator(external_key):
     # pad with "." if length is not a multiple of 16
-    if (len(key) % 16 != 0):
-        key = key + "." * (16 - len(key) % 16)
+    if (len(external_key) % 16 != 0):
+        num_padding = (16 - len(external_key) % 16)
+        external_key += ("." * num_padding)
         
-    subkey_len = len(key) // 16
+    subkey_len = len(external_key) // 16
     subkeys = []
     x = 0
-    for i in range(0, len(key)//subkey_len):
-        sum = 0
+    for i in range(0, len(external_key)//subkey_len):
+        sum_temp = 0
         for j in range(0, subkey_len):
-            sum = (sum + ord(key[i*subkey_len+j])) % 256
-        x = (x + sum) % 256
+            sum_temp = (sum_temp + ord(external_key[i*subkey_len+j])) % 256
+        x = (x + sum_temp) % 256
         subkey = ''.join(format(x, 'b').zfill(8))
         subkeys.append(subkey)
     return subkeys
@@ -74,12 +72,12 @@ def shift_arr_by_x(arr, x=0):
 
 def arr_2_matrix_of_string(arr, n_cols=16):
     matrix = []
-    temp = []
+    matrix_temp = []
     for i in range(0, len(arr)):
-        temp.append(arr[i])
+        matrix_temp.append(arr[i])
         if ((i+1)%n_cols == 0):
-            matrix.append(temp)
-            temp = []
+            matrix.append(matrix_temp)
+            matrix_temp = []
     return matrix
 
 def block_shifting(block, right=False):
