@@ -65,19 +65,16 @@ input_op = int(input("Choose Input: "))
 print()
 match input_op:
     case 1:
-        print("........................")
         print("~~~ Input by user typing  ~~~")
         text = input("Enter your text: ")
         key  = input("Enter your key: ")
     case 2:
-        print("........................")
-        print("~~~ Input by filename (in 'text file' folder)  ~~~")
+        print("~~~ Input by filename (in 'Text_Files/Test' folder)  ~~~")
         text_filename = input("Enter your text filename: ")
         key_filename  = input("Enter your  key filename: ")
         text = read_file(text_filename)
         key = read_file(key_filename)
     case default:
-        print("........................")
         print("Please type correct number")
         input_op = int(input("Input Mode: "))
 
