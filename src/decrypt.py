@@ -26,9 +26,9 @@ def decrypt(ciphertext, external_key):
             # Algorithm is the same as in encrypt.py, but in reverse order
             reverse_shift = block_shifting(result_block, right=True)
             reverse_subs = reverse_block_substitution(reverse_shift)
-            addited = substract_each_4bits_of_block_by_half(reverse_subs, addition=True)
+            addited = substract_each_4bits_of_block_by_x(reverse_subs, x=(15-i), addition=True)
             reXor_str = xor_block_with_subkey(addited, subkeys_list[15-i])
-            feistel = block_feistel(reXor_str)
+            feistel = LR_block_change(reXor_str)
             
             result_block = feistel
         plaintext += bit_string_2_string(result_block)

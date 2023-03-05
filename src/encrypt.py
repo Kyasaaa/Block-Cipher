@@ -24,11 +24,11 @@ def encrypt(plaintext, external_key):
         ### It be done for 16 iterations (16 subkeys)
         for i in range(16):
             # a) Do feistel : exhange left and right 64bits
-            feistel = block_feistel(result_block)
+            feistel = LR_block_change(result_block)
             # b) Do XOR with subkey
             xor_str = xor_block_with_subkey(feistel, subkeys_list[i])
             # c) Do Substraction for each 4bits by x
-            substracted = substract_each_4bits_of_block_by_half(xor_str, addition=False)
+            substracted = substract_each_4bits_of_block_by_x(xor_str, x=i, addition=False)
             # d) Do Substitution by S_BOX
             subs_str = block_substitution_by_sBox(substracted)
             # e) Do Block Shifting (permutation alt)

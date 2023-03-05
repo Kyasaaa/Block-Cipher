@@ -24,7 +24,7 @@ def subkey_generator(external_key):
         subkeys.append(subkey)
     return subkeys
 
-def block_feistel(block):
+def LR_block_change(block):
     leng = len(block)//2
     result = block[leng:] + block[:leng]
     return result
@@ -36,14 +36,14 @@ def xor_block_with_subkey(block, subkey):
         result += str(int(block[i]) ^ int(subkey[i]))
     return result
 
-def substract_each_4bits_of_block_by_half(block, addition=False):
-    x = 8
+def substract_each_4bits_of_block_by_x(block, x=8, addition=False):
+    if addition:
+        x *= -1
+        
     result = ""
     for i in range(0, len(block)//4):
         four_bit = block[i*4:i*4+4]
         four_bit_int = int(four_bit, 2)
-        if addition:
-            x *= -1
         four_bit_int = (four_bit_int - x) % 16
         four_bit = ''.join(format(four_bit_int, 'b').zfill(4))
         result += four_bit
